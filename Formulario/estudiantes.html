@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>input[type=text] {
+        width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        box-sizing: border-box;
+      }
+      
+      .button {
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}</style>
+</head>
+<body>
+
+<div id="contenido">
+    <table border="1"
+    >
+
+
+ <tr v-for="dato in datos">
+   <td>{{dato.nombre_1}}</td>
+   <td>{{dato.nombre_2}}</td>
+   <td>{{dato.apellido_1}}</td>
+   <td>{{dato.apellido_2}}</td>
+   <td>{{dato.telefono}}</td>
+   <td>{{dato.codigo_estudiante}}</td>
+ </tr>
+
+
+</table>
+
+
+nombre
+<input type="text" v-model="nombre_1">
+nomre 2
+<input type="text" v-model="nombre_2">
+apellido
+<input type="text" v-model="apellido_1">
+apellido 2
+<input type="text" v-model="apellido_2">
+telefono
+<input type="text" v-model="telefono">
+codigo
+<input type="text" v-model="codigo_estudiante">
+estudiante
+<input type="text" v-model="numero_identificación">
+<input type="button" value="Guardar" @click="guardar" class="button">
+  
+</div>
+    
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+        //las rutas se cambian dependiendo del puerto a servidos donde se ejecuten
+    new Vue({
+        el:"#contenido",
+        data:{
+         nombre_1:null,
+         nombre_2:null,
+         apellido_1:null,
+         apellido_2:null,
+         codigo_estudiante:null,
+         numero_identificación: null,
+         telefono:null,
+         barrio:null,
+         datos:null
+        },created() {
+            var vm =this;
+            axios.get("http://localhost:3000/Estudiantes").then((response)=>{
+				   console.log(response.data)
+			     vm.datos = response.data
+             })
+             
+             axios.get("http://localhost:3000/")
+        },
+        methods: {
+            guardar(){
+                var vm =this
+                var datos = {nombre_1:this.nombre_1, nombre_2:this.nombre_2, apellido_1:this.apellido_1, apellido_2:this.apellido_2,telefono:this.telefono}
+                axios.post("http://localhost:3000/Estudiantes",datos).then((response)=>{
+				   console.log(response.data)
+			    
+			 })
+            }
+        },
+    })
+    
+    
+    </script>
+</body>
+</html>
